@@ -1,0 +1,25 @@
+/**
+* author: Darshika
+* Question Link: https://leetcode.com/problems/complement-of-base-10-integer/
+* Time Complexity: O(1)
+* Space Complexity: O(1)
+*/
+
+class Solution {
+    public int bitwiseComplement(int n) {
+        int limit = 0;
+        for(int i = 31;i>=0;i--){
+            if((n&(1<<i)) != 0){
+                limit = i;
+                break;
+            }
+        }
+        int res = 0;
+        for(int i = 0;i<=limit;i++){
+            if((n&(1<<i)) == 0){
+                res |= (1<<i);
+            }
+        }
+        return res;
+    }
+}
