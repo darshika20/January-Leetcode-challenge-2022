@@ -1,0 +1,49 @@
+/**
+* author: Darshika
+* Question link: https://leetcode.com/problems/palindrome-partitioning/
+* Time Complexity: O(n^n * k) k - avg length of each partition
+* Space Complexity: O(x*k) x- no of partitions
+*/
+
+class Solution {
+    List<List<String>> res;
+    public List<List<String>> partition(String s) {
+        res = new ArrayList<>();
+        partitionHelper(s, new ArrayList<>());
+        return res;
+    }
+    
+    private void partitionHelper(String s, List<String> palin) {
+        
+        if(s.length() == 0){
+            res.add(new ArrayList<>(palin));
+            return;
+        }
+        
+        StringBuffer sb = new StringBuffer();
+        
+        for(int i = 0;i<s.length();i++){
+            char c = s.charAt(i);
+            sb.append(c);
+            
+            if(isPalindrome(sb.toString())){
+                palin.add(sb.toString());
+                partitionHelper(s.substring(i+1),palin);
+                palin.remove(palin.size()-1);
+            }
+        }
+    }
+    
+    private boolean isPalindrome(String s){
+        int lo = 0;
+        int hi = s.length()-1;
+        while(lo < hi){
+            if(s.charAt(lo) != s.charAt(hi)){
+                return false;
+            }
+            lo++;
+            hi--;
+        }
+        return true;
+    }
+}
