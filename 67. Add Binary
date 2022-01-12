@@ -1,0 +1,38 @@
+/**
+* author: Darshika
+* Question Link: https://leetcode.com/problems/add-binary/
+* Time Complexity: O(max(a.length,b.length))
+* Space Complexity: O(1)
+*/
+
+class Solution {
+    public String addBinary(String a, String b) {
+        
+        StringBuffer sb = new StringBuffer();
+        int carry = 0;
+        int i = a.length()-1;
+        int j = b.length()-1;
+        
+        while(i>=0 || j>=0){
+            int sum = 0;
+            if(i >= 0) {
+                sum += (a.charAt(i--) - '0');
+            } 
+            if(j >= 0) {
+                sum += (b.charAt(j--) - '0');
+            }
+            sum += carry;
+            if(sum > 1){
+                carry = 1;
+            }else{
+                carry = 0;
+            }
+            sum = sum % 2;
+            sb.append(sum);
+        }
+        if(carry > 0){
+            sb.append(carry);
+        }
+        return sb.reverse().toString();
+    }
+}
