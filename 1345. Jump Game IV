@@ -1,0 +1,63 @@
+/**
+* author: Darshika
+* Question Link: https://leetcode.com/problems/jump-game-iv/
+* Time Complexity: O(n)
+* Space Complexity: O(n)
+*/
+
+class Solution {
+    public int minJumps(int[] arr) {
+        Queue<Integer> q = new ArrayDeque<>();
+        Map<Integer,List<Integer>> map = new HashMap<>();
+        
+        for(int i = 0;i<arr.length;i++){
+            if(!map.containsKey(arr[i])){
+                map.put(arr[i],new ArrayList<>());
+            }
+            map.get(arr[i]).add(i);
+        }
+        
+        q.add(0);
+        int steps = 0;
+        while(q.size() > 0) {
+            int s = q.size();
+            
+            while(s-- > 0){
+                int idx = q.remove();
+                if(idx == arr.length-1){
+                    return steps;
+                }
+                
+                if(idx > 0){
+                    if(map.containsKey(arr[idx-1])){
+                        q.add(idx-1);
+                    }
+                }
+                
+                if(idx < arr.length - 1){
+                    if(map.containsKey(arr[idx+1])){
+                        if(idx+1 == arr.length-1){
+                            return steps+1;
+                        }
+                        q.add(idx+1);
+                    }
+                }
+                
+                if(map.containsKey(arr[idx])){
+                    for(int i : map.get(arr[idx])){
+                        if(i!=idx){
+                            if(i == arr.length-1){
+                                return steps+1;
+                            }
+                            q.add(i);
+                        }
+                    }
+                    map.remove(arr[idx]);
+                }
+            }
+            steps++;
+            
+        }
+        return -1;
+    }
+}
