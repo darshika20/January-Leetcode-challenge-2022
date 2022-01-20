@@ -1,0 +1,36 @@
+/**
+* author : Darshika
+* Question Link: https://leetcode.com/problems/koko-eating-bananas/
+* Time Complexity: O(nlog(max pile in piles))
+* Space Complexity: O(1)
+*/
+
+class Solution {
+    public int minEatingSpeed(int[] piles, int h) {
+        int hi = piles[0];
+        for(int val : piles){
+            hi = Math.max(hi,val);
+        }
+        int lo = 1;
+        while(lo<=hi){
+            int mid = (lo+hi)/2;
+            if(isValidSpeed(mid,h,piles)){
+                hi = mid - 1;
+            }else{
+                lo = mid + 1;
+            }
+        }
+        return lo;
+    }
+    private boolean isValidSpeed(int speed,int hour,int[] piles){
+        int time = 0;
+        for(int val : piles){
+            time += (val / speed);
+            time += (val % speed == 0 ? 0 : 1);
+            if(time > hour){
+                return false;
+            }
+        }
+        return true;
+    }
+}
