@@ -1,0 +1,21 @@
+/**
+* author: Darshika
+* Question Link: https://leetcode.com/problems/stone-game-iv/
+* Time Complexity: O(n^3/2)
+* Space Complexity: O(n)
+*/
+
+class Solution {
+    public boolean winnerSquareGame(int n) {
+        boolean[] dp = new boolean[n+1];
+        for(int i = 1;i<=n;i++){
+            for(int k = 1;k*k<=i;k++){
+                if(!dp[i-k*k]){
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+        return dp[n];
+    }
+}
