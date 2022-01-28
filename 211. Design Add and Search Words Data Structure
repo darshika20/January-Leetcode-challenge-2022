@@ -1,0 +1,75 @@
+/**
+* author: Darshika
+* Question Link: https://leetcode.com/problems/design-add-and-search-words-data-structure/
+* Time Complexity: O(n) // n- length of total words to be added + searched
+* Space Complexity: O(m) - length of total words to be added
+*/
+
+class WordDictionary {
+    
+    class Trie{
+        Trie[] children;
+        boolean end;
+        
+        Trie(){
+            this.children = new Trie[26];
+        }
+    }
+    
+    private void insert(Trie root, String word){
+        Trie temp = root;
+        for(char c : word.toCharArray()){
+            if(temp.children[c-'a'] == null){
+                temp.children[c- 'a'] = new Trie();
+            }
+            temp = temp.children[c-'a'];
+        }
+        temp.end = true;
+    }
+    
+    private boolean find(Trie root, String word){
+        Trie temp = root;
+        for(int idx = 0;idx < word.length() ; idx++){
+            char c = word.charAt(idx);
+            if(c == '.'){
+                Set<Trie> ans = new HashSet<>();
+                for(int i = 0;i<26;i++){
+                    if(temp.children[i] != null){
+                        if(find(temp.children[i],word.substring(idx+1))){
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }else{
+                if(temp.children[c-'a'] != null){
+                    temp = temp.children[c-'a'];
+                }else{
+                    return false;
+                }
+            }
+        }
+        return temp.end;
+    }
+    
+    Trie root;
+
+    public WordDictionary() {
+        root = new Trie();
+    }
+    
+    public void addWord(String word) {
+        insert(root, word);
+    }
+    
+    public boolean search(String word) {
+        return find(root, word);
+    }
+}
+
+/**
+ * Your WordDictionary object will be instantiated and called as such:
+ * WordDictionary obj = new WordDictionary();
+ * obj.addWord(word);
+ * boolean param_2 = obj.search(word);
+ */
