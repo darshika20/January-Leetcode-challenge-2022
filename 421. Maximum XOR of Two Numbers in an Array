@@ -1,0 +1,61 @@
+/**
+* author: Darshika
+* Question Link: https://leetcode.com/problems/maximum-xor-of-two-numbers-in-an-array/
+* Time Complexity: O(n)
+* Space Complexity: O(n)
+*/
+
+class Solution {
+    
+    class Trie{
+        Trie[] children;
+        public Trie(){
+            children = new Trie[2];
+        }
+        
+    }
+    
+    public int findMaximumXOR(int[] nums) {
+        Trie root = new Trie();
+        
+        createTrieMap(nums, root);
+        int maxXor = 0;
+        for(int num : nums){
+            int val = getMaxXorVal(num, root);
+            maxXor = Math.max(maxXor, num^val);
+        }
+        return maxXor;
+    }
+    
+    private void createTrieMap(int[] nums, Trie root){
+        
+        for(int num : nums){
+            Trie temp = root;
+            for(int i = 31;i>=0;i--){
+                int curBit = ((num >> i) & 1) ;
+                if(temp.children[curBit] == null){
+                    temp.children[curBit] = new Trie();
+                }
+                temp = temp.children[curBit];
+            }
+        }
+    }
+    
+    private int getMaxXorVal(int num, Trie root){
+        Trie temp = root;
+        int val = 0;
+        for(int i = 31; i >= 0; i--){
+            int curBit = ((num >> i) & 1);
+            int targetBit = curBit == 0 ? 1 : 0;
+            if(temp.children[targetBit] != null){
+                val = 2*val + targetBit;
+                temp = temp.children[targetBit];
+            }else{
+                val = 2*val + curBit;
+                temp = temp.children[curBit];
+            }
+        }
+        //System.out.println(num+" "+val);
+        return val;
+    }
+}
