@@ -1,0 +1,28 @@
+/**
+* author: Darshika
+* Question Link: https://leetcode.com/problems/rotate-array/
+* Time Complexity: O(n)
+* Space Complexity: O(1)
+*/
+
+class Solution {
+    public void rotate(int[] nums, int k) {
+        k = k % nums.length;
+        if(k == 0){
+            return;
+        }
+        reverse(0, nums.length-1-k, nums);
+        reverse(nums.length-k, nums.length-1, nums);
+        reverse(0, nums.length-1, nums);
+        return;
+    }
+    private void reverse(int left, int right, int[] nums){
+        while(left < right){
+            int temp = nums[left];
+            nums[left] =  nums[right];
+            nums[right] = temp;
+            left++;
+            right--;
+        }
+    }
+}
